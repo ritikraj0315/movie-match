@@ -22,7 +22,7 @@ export function Footer() {
             <div className="flex items-center space-x-4">
               <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white hover:bg-gray-800" asChild>
                 <a
-                  href="https://github.com/yourusername/moviematch"
+                  href="https://github.com/ritikraj0315/movie-match"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-2"
