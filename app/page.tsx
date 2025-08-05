@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Footer } from "@/components/footer"
-import { Search, TrendingUp, Star, Play, ChevronRight, Sparkles, Users, Calendar, Clock } from "lucide-react"
+import { Search, TrendingUp, Star, Play, ChevronRight, Sparkles, Users, Calendar, Clock, Menu, X } from "lucide-react"
 
 // Types
 interface Movie {
@@ -142,6 +142,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState<boolean>(false)
   const [apiKeyMissing, setApiKeyMissing] = useState<boolean>(false)
   const [activeTab, setActiveTab] = useState<string>("trending")
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false)
 
   // Check if API key is provided
   useEffect(() => {
@@ -260,26 +261,26 @@ export default function HomePage() {
         {/* Like button */}
         <button
           onClick={() => onToggleLike(movie.id)}
-          className="absolute top-3 right-3 p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors duration-200"
+          className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors duration-200"
           type="button"
         >
-          <Star className={`w-5 h-5 ${isLiked ? 'text-yellow-400 fill-current' : 'text-white'}`} />
+          <Star className={`w-4 h-4 sm:w-5 sm:h-5 ${isLiked ? 'text-yellow-400 fill-current' : 'text-white'}`} />
         </button>
 
         {/* Movie info overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-          <h3 className="text-white font-bold text-lg mb-2 line-clamp-2">{movie.title}</h3>
-          <div className="flex items-center gap-3 text-sm text-gray-300 mb-2">
+        <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+          <h3 className="text-white font-bold text-sm sm:text-lg mb-1 sm:mb-2 line-clamp-2">{movie.title}</h3>
+          <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-300 mb-1 sm:mb-2">
             <div className="flex items-center gap-1">
-              <Calendar className="w-4 h-4" />
+              <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
               <span>{movie.year}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+              <Star className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 fill-current" />
               <span>{movie.rating}</span>
             </div>
           </div>
-          <p className="text-gray-400 text-sm line-clamp-3">{movie.description}</p>
+          <p className="text-gray-400 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3">{movie.description}</p>
         </div>
       </div>
     </div>
@@ -288,24 +289,24 @@ export default function HomePage() {
   // API Key missing component
   if (apiKeyMissing) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="text-center max-w-2xl mx-auto px-4">
-          <div className="w-24 h-24 mx-auto mb-8 bg-red-900/20 rounded-full flex items-center justify-center">
-            <Search className="w-12 h-12 text-red-400" />
+      <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
+        <div className="text-center max-w-2xl mx-auto">
+          <div className="w-16 h-16 sm:w-24 sm:h-24 mx-auto mb-6 sm:mb-8 bg-red-900/20 rounded-full flex items-center justify-center">
+            <Search className="w-8 h-8 sm:w-12 sm:h-12 text-red-400" />
           </div>
-          <h1 className="text-4xl font-bold mb-6">TMDb API Key Required</h1>
-          <p className="text-xl text-gray-400 mb-8 leading-relaxed">
+          <h1 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6">TMDb API Key Required</h1>
+          <p className="text-lg sm:text-xl text-gray-400 mb-6 sm:mb-8 leading-relaxed">
             To use this movie application, you need to set up your TMDb API key in your environment variables.
           </p>
-          <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 text-left">
-            <h3 className="text-lg font-semibold text-white mb-4">Setup Instructions:</h3>
-            <ol className="list-decimal list-inside space-y-2 text-gray-300">
+          <div className="bg-gray-900 border border-gray-800 rounded-lg p-4 sm:p-6 text-left">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-4">Setup Instructions:</h3>
+            <ol className="list-decimal list-inside space-y-2 text-sm sm:text-base text-gray-300">
               <li>Get a free API key from <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">themoviedb.org</a></li>
               <li>Create an account and go to Settings → API</li>
               <li>Request an API key (it&apos;s free!)</li>
-              <li>Add to your <code className="bg-gray-800 px-2 py-1 rounded text-sm">.env.local</code> file:</li>
+              <li>Add to your <code className="bg-gray-800 px-2 py-1 rounded text-xs sm:text-sm">.env.local</code> file:</li>
               <li className="ml-4">
-                <code className="bg-gray-800 px-2 py-1 rounded text-sm block mt-2">
+                <code className="bg-gray-800 px-2 py-1 rounded text-xs sm:text-sm block mt-2 break-all">
                   NEXT_PUBLIC_TMDB_API_KEY=your_api_key_here
                 </code>
               </li>
@@ -325,24 +326,33 @@ export default function HomePage() {
     drama: dramaMovies
   }
 
+  const tabs = [
+    { id: 'trending', label: 'Trending', icon: TrendingUp },
+    { id: 'popular', label: 'Popular', icon: Star },
+    { id: 'action', label: 'Action', icon: null },
+    { id: 'scifi', label: 'Sci-Fi', icon: null },
+    { id: 'drama', label: 'Drama', icon: null }
+  ]
+
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Simple Navigation */}
+      {/* Enhanced Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="text-2xl font-bold">MovieMatch</div>
-          <div className="text-sm text-gray-400">Powered by TMDb</div>
+        <div className="container mx-auto px-4 h-14 sm:h-16 flex items-center justify-between">
+          <div className="text-xl sm:text-2xl font-bold">MovieMatch</div>
+          <div className="hidden sm:block text-xs sm:text-sm text-gray-400">Powered by TMDb</div>
+          <div className="sm:hidden text-xs text-gray-400">TMDb</div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden pt-16">
+      {/* Enhanced Hero Section */}
+      <section className="relative min-h-screen flex items-center overflow-hidden pt-14 sm:pt-16">
         {/* Background */}
         <div className="absolute inset-0 bg-black">
           {featuredMovie && (
             <>
               <div
-                className="w-full h-full bg-cover bg-center bg-no-repeat opacity-30"
+                className="w-full h-full bg-cover bg-center bg-no-repeat opacity-20 sm:opacity-30"
                 style={{
                   backgroundImage: `url('${featuredMovie.backdrop}')`,
                 }}
@@ -353,66 +363,64 @@ export default function HomePage() {
         </div>
 
         {/* Content */}
-        <div className="relative z-20 container mx-auto px-4 py-20">
+        <div className="relative z-20 container mx-auto px-4 py-12 sm:py-20">
           <div className="max-w-5xl mx-auto text-center">
             {/* Main Title */}
-            <div className="mb-12">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <Sparkles className="w-8 h-8 text-gray-400" />
-                <span className="text-lg font-medium text-gray-400 tracking-wider uppercase">
+            <div className="mb-8 sm:mb-12">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <Sparkles className="w-5 h-5 sm:w-8 sm:h-8 text-gray-400" />
+                <span className="text-sm sm:text-lg font-medium text-gray-400 tracking-wider uppercase">
                   Discover Movies with TMDb
                 </span>
-                <Sparkles className="w-8 h-8 text-gray-400" />
+                <Sparkles className="w-5 h-5 sm:w-8 sm:h-8 text-gray-400" />
               </div>
-              <h1 className="text-7xl md:text-9xl font-black mb-8 leading-none">
+              <h1 className="text-4xl sm:text-7xl md:text-9xl font-black mb-6 sm:mb-8 leading-none">
                 <span className="text-white">Movie</span>
                 <br />
                 <span className="text-gray-200">Match</span>
               </h1>
-              <p className="text-2xl md:text-3xl text-gray-300 mb-12 leading-relaxed max-w-4xl mx-auto font-light">
+              <p className="text-base sm:text-2xl md:text-3xl text-gray-300 mb-8 sm:mb-12 leading-relaxed max-w-4xl mx-auto font-light px-4">
                 Explore millions of movies from The Movie Database. Search, discover, and find your next cinematic adventure.
               </p>
             </div>
 
-            {/* Search Bar */}
-            <div className="relative max-w-3xl mx-auto mb-16">
-              <div className="relative bg-gray-900 border border-gray-800 rounded-lg p-2">
+            {/* Enhanced Search Bar */}
+            <div className="relative max-w-3xl mx-auto mb-12 sm:mb-16 px-4">
+              <div className="relative bg-gray-900 border border-gray-800 rounded-lg p-1 sm:p-2">
                 <div className="flex items-center">
-                  <Search className="ml-6 w-6 h-6 text-gray-400" />
+                  <Search className="ml-3 sm:ml-6 w-5 h-5 sm:w-6 sm:h-6 text-gray-400 flex-shrink-0" />
                   <input
                     placeholder="Search movies from TMDb database..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 px-6 py-6 text-lg bg-transparent border-none text-white placeholder-gray-400 focus:ring-0 focus:outline-none"
+                    className="flex-1 px-3 sm:px-6 py-4 sm:py-6 text-sm sm:text-lg bg-transparent border-none text-white placeholder-gray-400 focus:ring-0 focus:outline-none"
                     type="text"
                   />
                   {loading && (
-                    <div className="mr-6">
-                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                    <div className="mr-3 sm:mr-6 flex-shrink-0">
+                      <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-b-2 border-white"></div>
                     </div>
                   )}
                 </div>
               </div>
             </div>
-
-          
           </div>
         </div>
       </section>
 
-      {/* Content Section */}
-      <section className="relative py-24">
+      {/* Enhanced Content Section */}
+      <section className="relative py-12 sm:py-24">
         <div className="container mx-auto px-4">
           {searchQuery && searchResults.length > 0 ? (
             // Search Results
             <div>
-              <div className="text-center mb-12">
-                <h3 className="text-4xl font-bold text-white mb-4">Search Results</h3>
-                <p className="text-xl text-gray-400">
+              <div className="text-center mb-8 sm:mb-12">
+                <h3 className="text-2xl sm:text-4xl font-bold text-white mb-2 sm:mb-4">Search Results</h3>
+                <p className="text-base sm:text-xl text-gray-400">
                   {searchResults.length} movies found for &quot;{searchQuery}&quot;
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-6 lg:gap-8">
                 {searchResults.map((movie) => (
                   <MovieCard
                     key={movie.id}
@@ -425,13 +433,13 @@ export default function HomePage() {
             </div>
           ) : searchQuery && searchResults.length === 0 && !loading ? (
             // No search results
-            <div className="bg-gray-900 border border-gray-800 rounded-lg">
-              <div className="text-center py-16">
-                <div className="w-24 h-24 mx-auto mb-6 bg-gray-700 rounded-full flex items-center justify-center">
-                  <Search className="w-12 h-12 text-gray-400" />
+            <div className="bg-gray-900 border border-gray-800 rounded-lg mx-4 sm:mx-0">
+              <div className="text-center py-12 sm:py-16 px-4">
+                <div className="w-16 h-16 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 bg-gray-700 rounded-full flex items-center justify-center">
+                  <Search className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">No movies found</h3>
-                <p className="text-gray-400 text-lg">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-4">No movies found</h3>
+                <p className="text-gray-400 text-base sm:text-lg">
                   Try searching for something else or browse our categories below.
                 </p>
               </div>
@@ -439,60 +447,80 @@ export default function HomePage() {
           ) : (
             // Categories
             <div>
-              <div className="text-center mb-16">
-                <h2 className="text-5xl font-bold text-white mb-6">Explore Collections</h2>
-                <p className="text-2xl text-gray-400 max-w-3xl mx-auto">
+              <div className="text-center mb-12 sm:mb-16 px-4">
+                <h2 className="text-3xl sm:text-5xl font-bold text-white mb-4 sm:mb-6">Explore Collections</h2>
+                <p className="text-lg sm:text-2xl text-gray-400 max-w-3xl mx-auto">
                   Browse through movies from The Movie Database, updated in real-time
                 </p>
               </div>
 
-              {/* Tab Navigation */}
-              <div className="flex justify-center mb-16">
-                <div className="bg-gray-900 border border-gray-800 p-1 rounded-lg flex">
-                  {[
-                    { id: 'trending', label: 'Trending', icon: TrendingUp },
-                    { id: 'popular', label: 'Popular', icon: Star },
-                    { id: 'action', label: 'Action', icon: null },
-                    { id: 'scifi', label: 'Sci-Fi', icon: null },
-                    { id: 'drama', label: 'Drama', icon: null }
-                  ].map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`flex items-center gap-3 px-4 py-2 font-medium transition-colors text-base rounded-md ${
-                        activeTab === tab.id
-                          ? 'bg-white text-black'
-                          : 'text-gray-300 hover:text-white'
-                      }`}
-                      type="button"
-                    >
-                      {tab.icon && <tab.icon className="w-5 h-5" />}
-                      {tab.label}
-                    </button>
-                  ))}
+              {/* Enhanced Tab Navigation */}
+              <div className="flex justify-center mb-12 sm:mb-16 px-4">
+                <div className="w-full max-w-4xl">
+                  {/* Desktop Tabs */}
+                  <div className="hidden sm:flex justify-center">
+                    <div className="bg-gray-900 border border-gray-800 p-1 rounded-lg flex">
+                      {tabs.map((tab) => (
+                        <button
+                          key={tab.id}
+                          onClick={() => setActiveTab(tab.id)}
+                          className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 font-medium transition-colors text-sm sm:text-base rounded-md ${
+                            activeTab === tab.id
+                              ? 'bg-white text-black'
+                              : 'text-gray-300 hover:text-white'
+                          }`}
+                          type="button"
+                        >
+                          {tab.icon && <tab.icon className="w-4 h-4 sm:w-5 sm:h-5" />}
+                          {tab.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Mobile Tabs - Horizontal Scroll */}
+                  <div className="sm:hidden">
+                    <div className="flex overflow-x-auto scrollbar-hide bg-gray-900 border border-gray-800 rounded-lg p-1">
+                      {tabs.map((tab) => (
+                        <button
+                          key={tab.id}
+                          onClick={() => setActiveTab(tab.id)}
+                          className={`flex items-center gap-2 px-4 py-2 font-medium transition-colors text-sm rounded-md whitespace-nowrap flex-shrink-0 ${
+                            activeTab === tab.id
+                              ? 'bg-white text-black'
+                              : 'text-gray-300 hover:text-white'
+                          }`}
+                          type="button"
+                        >
+                          {tab.icon && <tab.icon className="w-4 h-4" />}
+                          {tab.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Movie Grid */}
-              <div className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
-                <div className="p-8">
-                  <div className="flex items-center justify-between mb-8">
+              {/* Enhanced Movie Grid */}
+              <div className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden mx-4 sm:mx-0">
+                <div className="p-4 sm:p-8">
+                  <div className="flex items-center justify-between mb-6 sm:mb-8">
                     <div>
-                      <h3 className="text-3xl font-bold text-white capitalize mb-2">
+                      <h3 className="text-xl sm:text-3xl font-bold text-white capitalize mb-1 sm:mb-2">
                         {activeTab === "scifi" ? "Science Fiction" : activeTab} Collection
                       </h3>
-                      <p className="text-gray-400 text-lg">
+                      <p className="text-gray-400 text-sm sm:text-lg">
                         {currentMovies[activeTab]?.length || 0} movies from TMDb
                       </p>
                     </div>
                   </div>
 
                   {loading ? (
-                    <div className="flex items-center justify-center py-16">
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+                    <div className="flex items-center justify-center py-12 sm:py-16">
+                      <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-white"></div>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-8">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-6 lg:gap-8">
                       {currentMovies[activeTab]?.map((movie) => (
                         <MovieCard
                           key={movie.id}
