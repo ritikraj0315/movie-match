@@ -89,7 +89,6 @@ export function FilterDialog({ open, onOpenChange, onApplyFilters, currentFilter
         </DialogHeader>
 
         <div className="space-y-6">
-          {/* Genres */}
           <div>
             <Label className="text-base font-medium mb-3 block">Genres</Label>
             <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
@@ -109,7 +108,6 @@ export function FilterDialog({ open, onOpenChange, onApplyFilters, currentFilter
             </div>
           </div>
 
-          {/* Year Range */}
           <div>
             <Label className="text-base font-medium mb-3 block">
               Release Year: {filters.yearRange[0]} - {filters.yearRange[1]}
@@ -123,8 +121,6 @@ export function FilterDialog({ open, onOpenChange, onApplyFilters, currentFilter
               className="w-full"
             />
           </div>
-
-          {/* Rating Range */}
           <div>
             <Label className="text-base font-medium mb-3 block">
               Rating: {filters.ratingRange[0]} - {filters.ratingRange[1]}
@@ -139,7 +135,6 @@ export function FilterDialog({ open, onOpenChange, onApplyFilters, currentFilter
             />
           </div>
 
-          {/* Sort By */}
           <div>
             <Label className="text-base font-medium mb-3 block">Sort By</Label>
             <select

@@ -1,5 +1,3 @@
-// Centralized mock movie data for the entire application
-
 import { TrendingUp, Star, Calendar, Zap, Target, Compass, Film } from "lucide-react"
 
 export const movieCategories = {

@@ -109,9 +109,7 @@ export default function DiscoverClient() {
     <div className="min-h-screen bg-black text-white">
       <Navigation onFilterClick={() => setFilterOpen(true)} />
 
-      {/* Hero Section */}
       <section className="relative py-24 overflow-hidden">
-        {/* Background Effects */}
         <div className="absolute inset-0 bg-black">
           <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-black to-gray-900" />
         </div>
@@ -138,7 +136,6 @@ export default function DiscoverClient() {
               Find your next cinematic adventure from thousands of carefully curated films.
             </p>
 
-            {/* Enhanced Search Bar */}
             <div className="relative max-w-4xl mx-auto mb-16">
               <Card className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
                 <CardContent className="p-2">
@@ -163,7 +160,6 @@ export default function DiscoverClient() {
               </Card>
             </div>
 
-            {/* Quick Filters */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
               {quickFilters.map((filter, index) => {
                 const Icon = filter.icon
@@ -187,8 +183,6 @@ export default function DiscoverClient() {
           </div>
         </div>
       </section>
-
-      {/* Active Filters Display */}
       {(filters.genres.length > 0 ||
         filters.yearRange[0] > 1970 ||
         filters.yearRange[1] < 2024 ||
@@ -230,7 +224,6 @@ export default function DiscoverClient() {
         </section>
       )}
 
-      {/* Results */}
       <section className="container mx-auto px-4 pb-24">
         <Card className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
           <CardContent className="p-8">

@@ -58,9 +58,7 @@ export default function MovieDetailClient({ movie }: MovieDetailClientProps) {
     <div className="min-h-screen bg-black text-white">
       <Navigation />
 
-      {/* Hero Section */}
       <section className="relative min-h-screen overflow-hidden">
-        {/* Background */}
         <div className="absolute inset-0 bg-black">
           <Image
             src={movie.backdrop || "/placeholder.svg"}
@@ -74,7 +72,6 @@ export default function MovieDetailClient({ movie }: MovieDetailClientProps) {
 
         <div className="relative container mx-auto px-4 h-full flex items-center py-24">
           <div className="flex flex-col lg:flex-row gap-12 w-full max-w-7xl mx-auto">
-            {/* Movie Poster */}
             <div className="flex-shrink-0 lg:w-1/3">
               <Card className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
                 <Image
@@ -88,7 +85,6 @@ export default function MovieDetailClient({ movie }: MovieDetailClientProps) {
               </Card>
             </div>
 
-            {/* Movie Info */}
             <div className="flex-1 lg:w-2/3">
               <Link
                 href="/"
@@ -107,7 +103,6 @@ export default function MovieDetailClient({ movie }: MovieDetailClientProps) {
 
               <p className="text-2xl text-gray-300 mb-8 font-light">{movie.year}</p>
 
-              {/* Stats Row */}
               <div className="flex flex-wrap items-center gap-6 mb-8">
                 <div className="flex items-center space-x-3 bg-gray-900 rounded-lg px-4 py-3 border border-gray-800">
                   <Star className="w-6 h-6 text-yellow-400 fill-current" />
@@ -123,8 +118,6 @@ export default function MovieDetailClient({ movie }: MovieDetailClientProps) {
                   <span className="text-white font-medium">{movie.releaseDate}</span>
                 </div>
               </div>
-
-              {/* Genres */}
               <div className="flex flex-wrap gap-3 mb-8">
                 {movie.genre.map((g) => (
                   <Badge
@@ -138,7 +131,6 @@ export default function MovieDetailClient({ movie }: MovieDetailClientProps) {
 
               <p className="text-xl text-gray-200 mb-10 leading-relaxed max-w-4xl font-light">{movie.description}</p>
 
-              {/* Action Buttons */}
               <div className="flex flex-wrap gap-4">
                 <Button
                   size="lg"
@@ -173,10 +165,8 @@ export default function MovieDetailClient({ movie }: MovieDetailClientProps) {
         </div>
       </section>
 
-      {/* Movie Details */}
       <section className="container mx-auto px-4 py-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
-          {/* Main Content */}
           <div className="lg:col-span-2">
             <Card className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden mb-12">
               <CardContent className="p-8">
@@ -214,7 +204,6 @@ export default function MovieDetailClient({ movie }: MovieDetailClientProps) {
             </Card>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-8">
             <Card className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
               <CardContent className="p-8">
@@ -250,7 +239,6 @@ export default function MovieDetailClient({ movie }: MovieDetailClientProps) {
         </div>
       </section>
 
-      {/* Similar Movies */}
       <section className="container mx-auto px-4 pb-24">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">

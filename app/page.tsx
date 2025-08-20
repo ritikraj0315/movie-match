@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import { Footer } from "@/components/footer"
 import { Search, TrendingUp, Star, Play, ChevronRight, Sparkles, Users, Calendar, Clock, Menu, X } from "lucide-react"
 
-// Types
 interface Movie {
   id: number
   title: string
@@ -43,12 +42,10 @@ interface FilterOptions {
   sortBy: string
 }
 
-// TMDb API configuration
 const TMDB_API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY || ''
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3'
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p'
 
-// TMDb API functions
 const tmdbApi = {
   search: (query: string): Promise<Response> => 
     fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=en-US&page=1`),
@@ -80,13 +77,11 @@ const tmdbApi = {
     fetch(`${TMDB_BASE_URL}/movie/${movieId}?api_key=${TMDB_API_KEY}&language=en-US&append_to_response=videos,credits`)
 }
 
-// Helper function to get image URL
 const getImageUrl = (path: string | null, size: string = 'w500'): string => {
   if (!path) return '/placeholder-movie.jpg'
   return `${TMDB_IMAGE_BASE_URL}/${size}${path}`
 }
 
-// Convert TMDb movie to our format
 const convertTmdbMovie = (tmdbMovie: TmdbMovie): Movie => ({
   id: tmdbMovie.id,
   title: tmdbMovie.title,
@@ -100,7 +95,6 @@ const convertTmdbMovie = (tmdbMovie: TmdbMovie): Movie => ({
   runtime: tmdbMovie.runtime || 0
 })
 
-// Genre mapping
 const genreMap: Record<number, string> = {
   28: 'Action',
   12: 'Adventure',
@@ -144,7 +138,6 @@ export default function HomePage() {
   const [activeTab, setActiveTab] = useState<string>("trending")
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false)
 
-  // Check if API key is provided
   useEffect(() => {
     if (!TMDB_API_KEY) {
       setApiKeyMissing(true)
@@ -153,27 +146,22 @@ export default function HomePage() {
     }
   }, [])
 
-  // Load initial data
   const loadInitialData = async (): Promise<void> => {
     setLoading(true)
     try {
-      // Load trending movies
       const trendingResponse = await tmdbApi.trending()
       const trendingData: TmdbResponse = await trendingResponse.json()
       const trending = trendingData.results.slice(0, 12).map(convertTmdbMovie)
       setTrendingMovies(trending)
       
-      // Set featured movie as first trending movie
       if (trending.length > 0) {
         setFeaturedMovie(trending[0])
       }
 
-      // Load popular movies
       const popularResponse = await tmdbApi.popular()
       const popularData: TmdbResponse = await popularResponse.json()
       setPopularMovies(popularData.results.slice(0, 12).map(convertTmdbMovie))
 
-      // Load genre-specific movies
       const actionResponse = await tmdbApi.discover({ with_genres: '28' })
       const actionData: TmdbResponse = await actionResponse.json()
       setActionMovies(actionData.results.slice(0, 12).map(convertTmdbMovie))
@@ -193,7 +181,6 @@ export default function HomePage() {
     }
   }
 
-  // Handle search
   const handleSearch = async (): Promise<void> => {
     if (!searchQuery.trim()) return
     
@@ -209,7 +196,6 @@ export default function HomePage() {
     }
   }
 
-  // Handle search input change
   useEffect(() => {
     if (searchQuery.trim()) {
       const timeoutId = setTimeout(handleSearch, 500)
@@ -219,7 +205,6 @@ export default function HomePage() {
     }
   }, [searchQuery])
 
-  // Load liked movies from localStorage
   useEffect(() => {
     const saved = localStorage.getItem("likedMovies")
     if (saved) {
@@ -243,7 +228,6 @@ export default function HomePage() {
     localStorage.setItem("likedMovies", JSON.stringify(newLikedMovies))
   }
 
-  // Movie card component
   const MovieCard: React.FC<MovieCardProps> = ({ movie, onToggleLike, isLiked }) => (
     <div className="group relative bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-gray-700 transition-all duration-300 hover:scale-105">
       <div className="aspect-[2/3] relative overflow-hidden">
@@ -258,7 +242,6 @@ export default function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
-        {/* Like button */}
         <button
           onClick={() => onToggleLike(movie.id)}
           className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full bg-black/50 hover:bg-black/70 transition-colors duration-200"
@@ -267,7 +250,6 @@ export default function HomePage() {
           <Star className={`w-4 h-4 sm:w-5 sm:h-5 ${isLiked ? 'text-yellow-400 fill-current' : 'text-white'}`} />
         </button>
 
-        {/* Movie info overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
           <h3 className="text-white font-bold text-sm sm:text-lg mb-1 sm:mb-2 line-clamp-2">{movie.title}</h3>
           <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-300 mb-1 sm:mb-2">
@@ -286,7 +268,6 @@ export default function HomePage() {
     </div>
   )
 
-  // API Key missing component
   if (apiKeyMissing) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
@@ -336,7 +317,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Enhanced Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
         <div className="container mx-auto px-4 h-14 sm:h-16 flex items-center justify-between">
           <div className="text-xl sm:text-2xl font-bold">MovieMatch</div>
@@ -345,9 +325,7 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Enhanced Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden pt-14 sm:pt-16">
-        {/* Background */}
         <div className="absolute inset-0 bg-black">
           {featuredMovie && (
             <>
@@ -362,10 +340,8 @@ export default function HomePage() {
           )}
         </div>
 
-        {/* Content */}
         <div className="relative z-20 container mx-auto px-4 py-12 sm:py-20">
           <div className="max-w-5xl mx-auto text-center">
-            {/* Main Title */}
             <div className="mb-8 sm:mb-12">
               <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
                 <Sparkles className="w-5 h-5 sm:w-8 sm:h-8 text-gray-400" />
@@ -384,7 +360,6 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* Enhanced Search Bar */}
             <div className="relative max-w-3xl mx-auto mb-12 sm:mb-16 px-4">
               <div className="relative bg-gray-900 border border-gray-800 rounded-lg p-1 sm:p-2">
                 <div className="flex items-center">
@@ -408,11 +383,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Enhanced Content Section */}
       <section className="relative py-12 sm:py-24">
         <div className="container mx-auto px-4">
           {searchQuery && searchResults.length > 0 ? (
-            // Search Results
             <div>
               <div className="text-center mb-8 sm:mb-12">
                 <h3 className="text-2xl sm:text-4xl font-bold text-white mb-2 sm:mb-4">Search Results</h3>
@@ -432,7 +405,6 @@ export default function HomePage() {
               </div>
             </div>
           ) : searchQuery && searchResults.length === 0 && !loading ? (
-            // No search results
             <div className="bg-gray-900 border border-gray-800 rounded-lg mx-4 sm:mx-0">
               <div className="text-center py-12 sm:py-16 px-4">
                 <div className="w-16 h-16 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 bg-gray-700 rounded-full flex items-center justify-center">
@@ -445,7 +417,6 @@ export default function HomePage() {
               </div>
             </div>
           ) : (
-            // Categories
             <div>
               <div className="text-center mb-12 sm:mb-16 px-4">
                 <h2 className="text-3xl sm:text-5xl font-bold text-white mb-4 sm:mb-6">Explore Collections</h2>
@@ -454,10 +425,8 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Enhanced Tab Navigation */}
               <div className="flex justify-center mb-12 sm:mb-16 px-4">
                 <div className="w-full max-w-4xl">
-                  {/* Desktop Tabs */}
                   <div className="hidden sm:flex justify-center">
                     <div className="bg-gray-900 border border-gray-800 p-1 rounded-lg flex">
                       {tabs.map((tab) => (
@@ -478,7 +447,6 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Mobile Tabs - Horizontal Scroll */}
                   <div className="sm:hidden">
                     <div className="flex overflow-x-auto scrollbar-hide bg-gray-900 border border-gray-800 rounded-lg p-1">
                       {tabs.map((tab) => (
@@ -501,7 +469,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Enhanced Movie Grid */}
               <div className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden mx-4 sm:mx-0">
                 <div className="p-4 sm:p-8">
                   <div className="flex items-center justify-between mb-6 sm:mb-8">
@@ -538,7 +505,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
       <Footer />
     </div>
   )

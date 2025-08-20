@@ -42,7 +42,6 @@ export default function MyListClient() {
 
   const likedMovieData = allMovies.filter((movie) => likedMovies.includes(movie.id))
 
-  // Calculate stats
   const totalRating = likedMovieData.reduce((sum, movie) => sum + movie.rating, 0)
   const averageRating = likedMovieData.length > 0 ? (totalRating / likedMovieData.length).toFixed(1) : "0"
   const genres = [...new Set(likedMovieData.flatMap((movie) => movie.genre))]
@@ -53,9 +52,7 @@ export default function MyListClient() {
     <div className="min-h-screen bg-black text-white">
       <Navigation />
 
-      {/* Hero Section */}
       <section className="relative py-24 overflow-hidden">
-        {/* Background Effects */}
         <div className="absolute inset-0 bg-black">
           <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-black to-gray-900" />
         </div>
@@ -85,7 +82,6 @@ export default function MyListClient() {
                 : "Start building your personal movie library."}
             </p>
 
-            {/* Stats Cards */}
             {likedMovieData.length > 0 && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
                 <Card className="bg-gray-900 border border-gray-800 hover:bg-gray-800 transition-colors duration-300">
@@ -130,7 +126,6 @@ export default function MyListClient() {
               </div>
             )}
 
-            {/* Action Buttons */}
             {likedMovieData.length > 0 && (
               <div className="flex gap-4 justify-center">
                 <Button
@@ -147,7 +142,6 @@ export default function MyListClient() {
         </div>
       </section>
 
-      {/* Content */}
       <section className="container mx-auto px-4 pb-24">
         {likedMovieData.length === 0 ? (
           <Card className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
@@ -188,7 +182,6 @@ export default function MyListClient() {
                   </p>
                 </div>
 
-                {/* Genre Tags */}
                 <div className="flex flex-wrap gap-2 max-w-md">
                   {genres.slice(0, 4).map((genre) => (
                     <Badge key={genre} className="bg-gray-800 text-gray-300 border-gray-700 px-3 py-1">
